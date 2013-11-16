@@ -511,7 +511,7 @@ class ImageModel(models.Model):
         self.clear_cache()
 	try:
             os.remove(self.image.path)
-	except OSError:
+	except:
 	    pass
         super(ImageModel, self).delete()
 
