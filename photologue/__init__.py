@@ -1,1 +1,1 @@
-VERSION = (2, 8, 'praekelt')
+VERSION = (0, 1, 'django-17')
