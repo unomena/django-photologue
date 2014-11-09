@@ -9,6 +9,7 @@ from inspect import isclass
 
 from django.db import models
 from django.db.models.signals import post_init
+from django.db.utils import OperationalError
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.files.base import ContentFile
@@ -775,8 +776,11 @@ def add_methods(sender, instance, signal, *args, **kwargs):
     after the Photo model's __init__ function completes,
     this method calls "add_accessor_methods" on each instance.
     """
-    if hasattr(instance, 'add_accessor_methods'):
-        instance.add_accessor_methods()
+    try:
+        if hasattr(instance, 'add_accessor_methods'):
+            instance.add_accessor_methods()
+    except OperationalError:
+        pass
 
 # connect the add_accessor_methods function to the post_init signal
 post_init.connect(add_methods)
